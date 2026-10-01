@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://staffgo-new-dist.vercel.app/sitemap.xml
