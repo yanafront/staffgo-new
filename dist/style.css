@@ -67,5 +67,5 @@ small,.business-grid small,.footer-app small,.hero-note,.intro-strip span,.intro
 .header{width:100%;max-width:none;padding-left:clamp(20px,4vw,64px);padding-right:clamp(20px,4vw,64px)}
 @media(min-width:801px){.header{gap:14px}.header nav{order:1;justify-content:center;gap:18px}.header .callback{order:2;margin-left:0;background:#eef1f3;color:#202a33}.header .callback:hover{background:#dfe5e8}.header .login{order:3;margin-left:0;background:#202a33;color:#fff}.header .login:hover{background:#3b4a57}}
 @media(min-width:801px){.header nav>a{display:inline-flex;align-items:center;align-self:center;min-height:44px}.header nav>details,.header nav>.housing{align-self:center}}
-.hero-art:after{background:rgba(0,0,0,.8)}
+.hero-art:after{background:rgba(0,0,0,.67)}
 .hero-art img{filter:brightness(.86) contrast(.9) saturate(.9)}
