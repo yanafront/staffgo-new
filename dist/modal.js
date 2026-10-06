@@ -2,7 +2,7 @@ const callbackModal = document.querySelector('[data-callback-modal]');
 const callbackOpen = document.querySelector('[data-open-callback]');
 const callbackClose = document.querySelector('[data-close-callback]');
 const callbackForm = document.querySelector('[data-callback-form]');
-const callbackEndpoint = '/api/contact-request';
+const callbackEndpoint = 'https://platform.alcan.by/api/landing/contact-request';
 
 if (callbackModal && callbackOpen && callbackClose && callbackForm) {
   const closeButton = callbackModal.querySelector('[data-close-callback]');

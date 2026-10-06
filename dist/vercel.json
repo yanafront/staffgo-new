@@ -1,8 +1,0 @@
-{
-  "rewrites": [
-    {
-      "source": "/api/contact-request",
-      "destination": "https://platform.alcan.by/api/landing/contact-request"
-    }
-  ]
-}
