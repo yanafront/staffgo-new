@@ -84,5 +84,4 @@ const audiences={
   };
 
   enableDetailsAnimation('.faq-list details');
-  enableDetailsAnimation('.header nav details');
 })();
