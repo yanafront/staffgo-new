@@ -3,7 +3,7 @@ const callbackOpen = document.querySelector('[data-open-callback]');
 const callbackClose = document.querySelector('[data-close-callback]');
 const callbackForm = document.querySelector('[data-callback-form]');
 const callbackEndpoint = 'https://platform.alcan.by/api/landing/contact-request';
-const turnstileSiteKey = '__TURNSTILE_SITE_KEY__';
+const turnstileSiteKey = '0x4AAAAAAC9RksUVqy60KNZ3';
 
 if (callbackModal && callbackOpen && callbackClose && callbackForm) {
   const closeButton = callbackModal.querySelector('[data-close-callback]');
