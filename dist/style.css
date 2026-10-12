@@ -134,3 +134,5 @@ html,body{max-width:100%;overflow-x:clip}img,picture{max-width:100%}@media(max-w
 .outline:hover{background:#dfe5e8}
 /* Give the geographic metric enough room to stay on one line. */
 @media(min-width:1001px){.intro-strip__content{grid-template-columns:minmax(220px,1.15fr) repeat(4,minmax(145px,1fr))}}
+/* Desktop dropdowns must stay anchored to their navigation item. */
+@media(min-width:1101px) and (max-width:1300px){.header details>.dropdown{position:absolute;top:calc(100% + 6px);left:-18px;width:310px;margin-top:0}}
