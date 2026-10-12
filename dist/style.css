@@ -122,3 +122,9 @@ html,body{max-width:100%;overflow-x:clip}img,picture{max-width:100%}@media(max-w
 /* Keep the statistics strip aligned with the page grid at desktop and tablet widths. */
 @media(min-width:801px){.intro-strip{padding-right:48px;padding-left:48px}}
 @media(min-width:801px) and (max-width:1300px){.intro-strip{padding-right:32px;padding-left:32px}}
+/* Statistics: full-bleed rules with an inset content grid. */
+.intro-strip{display:block;max-width:none;margin:0;padding:0;border-top:1px solid #cbd3d9;border-bottom:1px solid #cbd3d9}
+.intro-strip__content{display:grid;grid-template-columns:minmax(250px,1.4fr) repeat(4,minmax(120px,1fr));gap:0;max-width:1320px;margin:0 auto;padding:34px 48px}
+@media(min-width:801px) and (max-width:1300px){.intro-strip__content{padding-right:32px;padding-left:32px}}
+@media(min-width:561px) and (max-width:1000px){.intro-strip__content{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 32px;padding-top:30px;padding-bottom:30px}.intro-strip__intro{grid-column:1/-1;padding:0}.intro-strip__metric{padding:0;border-left:0}.intro-strip__metric:nth-of-type(4),.intro-strip__metric:nth-of-type(5){border-left:1px solid #d6dde2;padding-left:32px}}
+@media(max-width:560px){.intro-strip__content{grid-template-columns:1fr;gap:18px;padding:26px 20px}.intro-strip__intro{grid-column:auto;padding:0}.intro-strip__metric,.intro-strip__metric:nth-of-type(4),.intro-strip__metric:nth-of-type(5){padding:0!important;border-left:0!important}.intro-strip__metric strong{font-size:26px}}
