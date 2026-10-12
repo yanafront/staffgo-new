@@ -1,11 +1,11 @@
 const callbackModal = document.querySelector('[data-callback-modal]');
-const callbackOpen = document.querySelector('[data-open-callback]');
+const callbackOpen = document.querySelectorAll('[data-open-callback]');
 const callbackClose = document.querySelector('[data-close-callback]');
 const callbackForm = document.querySelector('[data-callback-form]');
 const callbackEndpoint = 'https://platform.alcan.by/api/landing/contact-request';
 const turnstileSiteKey = '0x4AAAAAAC9RksUVqy60KNZ3';
 
-if (callbackModal && callbackOpen && callbackClose && callbackForm) {
+if (callbackModal && callbackOpen.length && callbackClose && callbackForm) {
   const closeButton = callbackModal.querySelector('[data-close-callback]');
   const submitButton = callbackForm.querySelector('.callback-submit');
   const status = callbackForm.querySelector('[data-callback-status]');
@@ -45,7 +45,7 @@ if (callbackModal && callbackOpen && callbackClose && callbackForm) {
     if (turnstileWidgetId !== null && window.turnstile) window.turnstile.reset(turnstileWidgetId);
   };
 
-  callbackOpen.addEventListener('click', () => {
+  callbackOpen.forEach((openButton) => openButton.addEventListener('click', () => {
     callbackModal.classList.remove('is-success');
     callbackForm.reset();
     callbackForm.elements.sourcePage.value = window.location.pathname;
@@ -54,7 +54,7 @@ if (callbackModal && callbackOpen && callbackClose && callbackForm) {
     callbackModal.showModal();
     ensureTurnstile();
     callbackModal.querySelector('input[name="name"]').focus();
-  });
+  }));
 
   callbackClose.addEventListener('click', () => callbackModal.close());
   callbackModal.addEventListener('click', (event) => {
