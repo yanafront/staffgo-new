@@ -130,3 +130,5 @@ html,body{max-width:100%;overflow-x:clip}img,picture{max-width:100%}@media(max-w
 @media(max-width:560px){.intro-strip__content{grid-template-columns:1fr;gap:18px;padding:26px 20px}.intro-strip__intro{grid-column:auto;padding:0}.intro-strip__metric,.intro-strip__metric:nth-of-type(4),.intro-strip__metric:nth-of-type(5){padding:0!important;border-left:0!important}.intro-strip__metric strong{font-size:26px}}
 /* Use the mobile single-column statistics rhythm through tablet widths. */
 @media(min-width:561px) and (max-width:1000px){.intro-strip__content{grid-template-columns:1fr;gap:18px;padding-top:28px;padding-bottom:28px}.intro-strip__intro{grid-column:auto}.intro-strip__metric,.intro-strip__metric:nth-of-type(4),.intro-strip__metric:nth-of-type(5){padding:0!important;border-left:0!important}}
+/* Give neutral buttons a visible, calm hover state instead of flashing white. */
+.outline:hover{background:#dfe5e8}
