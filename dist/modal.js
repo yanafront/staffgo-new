@@ -3,16 +3,46 @@ const callbackOpen = document.querySelector('[data-open-callback]');
 const callbackClose = document.querySelector('[data-close-callback]');
 const callbackForm = document.querySelector('[data-callback-form]');
 const callbackEndpoint = 'https://platform.alcan.by/api/landing/contact-request';
+const turnstileSiteKey = '__TURNSTILE_SITE_KEY__';
 
 if (callbackModal && callbackOpen && callbackClose && callbackForm) {
   const closeButton = callbackModal.querySelector('[data-close-callback]');
   const submitButton = callbackForm.querySelector('.callback-submit');
   const status = callbackForm.querySelector('[data-callback-status]');
+  const turnstileBox = callbackForm.querySelector('[data-turnstile]');
+  let turnstileWidgetId = null;
+  let turnstileToken = '';
 
   const setStatus = (message, type = '') => {
     status.hidden = !message;
     status.textContent = message;
     status.className = `callback-status${type ? ` is-${type}` : ''}`;
+  };
+
+  const ensureTurnstile = (attempt = 0) => {
+    if (!turnstileBox) return;
+    if (turnstileWidgetId !== null) {
+      window.turnstile.reset(turnstileWidgetId);
+      turnstileToken = '';
+      return;
+    }
+    if (!window.turnstile) {
+      if (attempt < 50) setTimeout(() => ensureTurnstile(attempt + 1), 200);
+      else setStatus('Не удалось загрузить проверку безопасности. Обновите страницу.', 'error');
+      return;
+    }
+    turnstileWidgetId = window.turnstile.render(turnstileBox, {
+      sitekey: turnstileSiteKey,
+      language: 'ru',
+      callback: (token) => { turnstileToken = token; },
+      'expired-callback': () => { turnstileToken = ''; },
+      'error-callback': () => { turnstileToken = ''; }
+    });
+  };
+
+  const resetTurnstile = () => {
+    turnstileToken = '';
+    if (turnstileWidgetId !== null && window.turnstile) window.turnstile.reset(turnstileWidgetId);
   };
 
   callbackOpen.addEventListener('click', () => {
@@ -22,6 +52,7 @@ if (callbackModal && callbackOpen && callbackClose && callbackForm) {
     submitButton.disabled = false;
     setStatus('');
     callbackModal.showModal();
+    ensureTurnstile();
     callbackModal.querySelector('input[name="name"]').focus();
   });
 
@@ -33,13 +64,18 @@ if (callbackModal && callbackOpen && callbackClose && callbackForm) {
   callbackForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     if (!callbackForm.reportValidity()) return;
+    if (!turnstileToken) {
+      setStatus('Подтвердите, что вы не робот.', 'error');
+      return;
+    }
 
     const formData = new FormData(callbackForm);
     const payload = {
       name: String(formData.get('name') || '').trim(),
       phone: String(formData.get('phone') || '').trim(),
       sourcePage: String(formData.get('sourcePage') || window.location.pathname),
-      website: String(formData.get('website') || '')
+      website: String(formData.get('website') || ''),
+      captchaToken: turnstileToken
     };
 
     submitButton.disabled = true;
@@ -53,7 +89,10 @@ if (callbackModal && callbackOpen && callbackClose && callbackForm) {
       });
       const result = await response.json().catch(() => ({}));
       if (!response.ok || result.success === false) {
-        throw new Error(Array.isArray(result.message) ? result.message.join(', ') : result.message);
+        let message = Array.isArray(result.message) ? result.message.join(', ') : result.message;
+        if (response.status === 403) message = message || 'Проверка безопасности не пройдена. Попробуйте ещё раз.';
+        if (response.status === 429) message = 'Слишком много заявок. Попробуйте через минуту.';
+        throw new Error(message);
       }
       callbackModal.classList.add('is-success');
       setStatus('');
@@ -61,6 +100,7 @@ if (callbackModal && callbackOpen && callbackClose && callbackForm) {
     } catch (error) {
       setStatus(error.message || 'Не удалось отправить заявку. Попробуйте позже.', 'error');
       submitButton.disabled = false;
+      resetTurnstile();
     }
   });
 }
