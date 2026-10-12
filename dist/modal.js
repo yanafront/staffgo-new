@@ -45,6 +45,20 @@ if (callbackModal && callbackOpen.length && callbackClose && callbackForm) {
     if (turnstileWidgetId !== null && window.turnstile) window.turnstile.reset(turnstileWidgetId);
   };
 
+  const phoneInput = callbackForm.elements.phone;
+  const formatPhone = () => {
+    let digits = phoneInput.value.replace(/\D/g, '');
+    if (digits.startsWith('375')) digits = digits.slice(3);
+    digits = digits.slice(0, 9);
+    phoneInput.value = `+375${digits}`;
+    phoneInput.setCustomValidity(digits.length === 9 ? '' : 'Введите номер в формате +375XXXXXXXXX');
+  };
+  phoneInput.addEventListener('focus', formatPhone);
+  phoneInput.addEventListener('input', formatPhone);
+  phoneInput.addEventListener('keydown', (event) => {
+    if (event.key === 'Backspace' && phoneInput.selectionStart <= 4 && phoneInput.selectionEnd <= 4) event.preventDefault();
+  });
+
   callbackOpen.forEach((openButton) => openButton.addEventListener('click', () => {
     callbackModal.classList.remove('is-success');
     callbackForm.reset();
